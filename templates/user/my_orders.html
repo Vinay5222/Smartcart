@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Orders</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    background:linear-gradient(135deg,#eef2ff,#f8fafc);
+    color:#0f172a;
+    display:flex;
+    flex-direction:column;
+}
+
+/* NAVBAR */
+.navbar{
+    position:sticky;
+    top:0;
+    left:0;
+    width:100%;
+    background:#0f172a;
+    padding:14px 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    z-index:9999;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#fff;
+    font-size:24px;
+    font-weight:bold;
+}
+
+.logo-icon{
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    background:#2563eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+}
+
+.logo span{
+    color:#fb923c;
+}
+
+#menu-toggle{
+    display:none;
+}
+
+.menu-icon{
+    display:none;
+    font-size:28px;
+    color:#fff;
+    cursor:pointer;
+}
+
+.nav-links{
+    display:flex;
+    gap:10px;
+    align-items:center;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#fff;
+    padding:10px 14px;
+    border-radius:10px;
+    font-size:14px;
+    font-weight:bold;
+    transition:0.3s;
+    white-space:nowrap;
+}
+
+.nav-links a:hover,
+.active-btn{
+    background:#f97316;
+}
+
+/* MAIN */
+.container{
+    width:100%;
+    max-width:1200px;
+    margin:35px auto;
+    padding:0 16px;
+    flex:1;
+}
+
+.hero{
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    padding:28px;
+    border-radius:22px;
+    margin-bottom:28px;
+}
+
+.hero h1{
+    font-size:34px;
+    margin-bottom:8px;
+}
+
+.hero p{
+    font-size:16px;
+}
+
+.orders-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:20px;
+}
+
+.order-card{
+    background:#fff;
+    border-radius:18px;
+    padding:22px;
+    box-shadow:0 8px 22px rgba(0,0,0,0.08);
+    transition:0.3s;
+}
+
+.order-card:hover{
+    transform:translateY(-4px);
+}
+
+.order-id{
+    font-size:22px;
+    font-weight:bold;
+    color:#111827;
+    margin-bottom:14px;
+}
+
+.info{
+    margin:8px 0;
+    color:#334155;
+    font-size:15px;
+    word-break:break-word;
+}
+
+.label{
+    font-weight:bold;
+    color:#0f172a;
+}
+
+.status{
+    display:inline-block;
+    margin-top:10px;
+    padding:6px 12px;
+    border-radius:30px;
+    background:#dcfce7;
+    color:#166534;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.btn-group{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-top:18px;
+}
+
+.btn{
+    flex:1;
+    text-align:center;
+    text-decoration:none;
+    padding:10px 14px;
+    border-radius:10px;
+    color:#fff;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.view-btn{
+    background:#2563eb;
+}
+
+.invoice-btn{
+    background:#16a34a;
+}
+
+.empty{
+    background:white;
+    padding:35px;
+    text-align:center;
+    border-radius:18px;
+    box-shadow:0 8px 22px rgba(0,0,0,0.08);
+}
+
+.footer{
+    width:100%;
+    background:#0f172a;
+    color:#cbd5e1;
+    text-align:center;
+    padding:22px 15px;
+    margin-top:40px;
+}
+
+/* MOBILE */
+@media(max-width:768px){
+
+    .navbar{
+        padding:14px 18px;
+    }
+
+    .menu-icon{
+        display:block;
+    }
+
+    .nav-links{
+        display:none;
+        flex-direction:column;
+        position:absolute;
+        top:70px;
+        right:12px;
+        width:230px;
+        background:#0f172a;
+        border-radius:14px;
+        padding:14px;
+        box-shadow:0 10px 25px rgba(0,0,0,0.25);
+    }
+
+    #menu-toggle:checked + .menu-icon + .nav-links{
+        display:flex;
+    }
+
+    .nav-links a{
+        width:100%;
+        text-align:center;
+    }
+
+    .logo{
+        font-size:20px;
+    }
+
+    .logo-icon{
+        width:36px;
+        height:36px;
+        font-size:18px;
+    }
+
+    .container{
+        margin:25px auto;
+        padding:0 12px;
+    }
+
+    .hero{
+        padding:24px 20px;
+    }
+
+    .hero h1{
+        font-size:28px;
+    }
+
+    .order-card{
+        padding:18px;
+    }
+
+    .btn{
+        width:100%;
+        flex:none;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+    <div class="logo">
+        <div class="logo-icon">🛒</div>
+        <div>Smart <span>Cart</span></div>
+    </div>
+
+    <input type="checkbox" id="menu-toggle">
+    <label for="menu-toggle" class="menu-icon">&#9776;</label>
+
+    <div class="nav-links">
+        <a href="/user-dashboard">🏠 Dashboard</a>
+        <a href="/user/products">🛍️ Products</a>
+        <a href="/user/cart">🛒 Cart</a>
+        <a href="/user/my-orders" class="active-btn">📦 My Orders</a>
+        <a href="/user/profile">👤 Profile</a>
+        <a href="/user-logout">🚪 Logout</a>
+    </div>
+
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+    <div class="hero">
+        <h1>My Orders</h1>
+        <p>Here you can view your previous SmartCart orders.</p>
+    </div>
+
+    {% if orders %}
+
+    <div class="orders-grid">
+
+        {% for order in orders %}
+        <div class="order-card">
+
+            <div class="order-id">📦 Order #{{ order.order_id }}</div>
+
+            <div class="info">
+                <span class="label">Razorpay ID:</span>
+                {{ order.razorpay_order_id }}
+            </div>
+
+            <div class="info">
+                <span class="label">Amount:</span>
+                ₹{{ order.amount }}
+            </div>
+
+            <div class="info">
+                <span class="label">Date:</span>
+                {{ order.created_at }}
+            </div>
+
+            <span class="status">Placed Successfully</span>
+
+            <div class="btn-group">
+                <a href="/user/order-success/{{ order.order_id }}" class="btn view-btn">View</a>
+                <a href="/user/download-invoice/{{ order.order_id }}" class="btn invoice-btn">Invoice</a>
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty">
+        <h3>No Orders Found</h3>
+    </div>
+
+    {% endif %}
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <p>© 2026 SmartCart. All Rights Reserved.</p>
+</div>
+
+</body>
+</html>

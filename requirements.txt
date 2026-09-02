@@ -1,0 +1,8 @@
+Flask==2.2.5
+Werkzeug==2.2.3
+xhtml2pdf==0.2.11
+reportlab==3.6.12
+Pillow==9.5.0
+html5lib==1.1
+mysql-connector-python==8.0.33
+

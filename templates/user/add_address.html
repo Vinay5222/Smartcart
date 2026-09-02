@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Add Address</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#f4f7fb;
+    color:#111827;
+    min-height:100vh;
+}
+
+/* NAVBAR */
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:9999;
+    background:#07142f;
+    padding:12px 28px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 4px 12px rgba(0,0,0,0.15);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#fff;
+    font-size:28px;
+    font-weight:700;
+}
+
+.logo span{
+    color:#ff8c1a;
+}
+
+.logo-icon{
+    width:46px;
+    height:46px;
+    border-radius:50%;
+    background:#2563eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+}
+
+.nav-links{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.nav-links a{
+    color:#fff;
+    text-decoration:none;
+    font-size:16px;
+    font-weight:600;
+    padding:10px 15px;
+    border-radius:10px;
+    transition:0.3s;
+}
+
+.nav-links a:hover,
+.nav-links a.active{
+    background:#ff7a18;
+}
+
+.menu-btn{
+    display:none;
+    color:#fff;
+    font-size:34px;
+    cursor:pointer;
+}
+
+/* FLASH MESSAGE */
+.flash-msg{
+    max-width:600px;
+    margin:20px auto 0;
+    padding:12px;
+    text-align:center;
+    border-radius:10px;
+    font-weight:bold;
+    background:#dcfce7;
+    color:#166534;
+    animation:fadeOut 3s forwards;
+}
+
+.flash-msg.success{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.flash-msg.danger{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+@keyframes fadeOut{
+    0%{opacity:1;}
+    80%{opacity:1;}
+    100%{opacity:0;visibility:hidden;}
+}
+
+/* PAGE */
+.container{
+    max-width:1050px;
+    width:100%;
+    margin:45px auto 80px auto;
+    padding:0 20px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:22px;
+}
+
+.card{
+    background:#fff;
+    padding:20px;
+    border-radius:16px;
+    box-shadow:0 8px 22px rgba(0,0,0,0.08);
+}
+
+.card h2{
+    font-size:24px;
+    color:#07142f;
+    margin-bottom:16px;
+}
+
+input,textarea{
+    width:100%;
+    padding:11px 13px;
+    border:1px solid #d6dbe4;
+    border-radius:10px;
+    margin-bottom:11px;
+    font-size:14px;
+    outline:none;
+}
+
+input:focus,textarea:focus{
+    border-color:#2563eb;
+}
+
+textarea{
+    height:75px;
+    resize:none;
+}
+
+.save-btn{
+    width:100%;
+    border:none;
+    background:#2563eb;
+    color:#fff;
+    padding:12px;
+    border-radius:10px;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.save-btn:hover{
+    background:#1d4ed8;
+}
+
+.address-box{
+    border:1px solid #e5e7eb;
+    background:#fafafa;
+    border-radius:14px;
+    padding:14px;
+    margin-bottom:14px;
+}
+
+.address-box h3{
+    font-size:18px;
+    margin-bottom:8px;
+}
+
+.address-box p{
+    font-size:14px;
+    margin-bottom:8px;
+    line-height:1.5;
+}
+
+.actions{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:10px;
+    margin-top:12px;
+}
+
+.actions a{
+    text-decoration:none;
+    text-align:center;
+    padding:10px;
+    border-radius:9px;
+    font-size:14px;
+    font-weight:700;
+}
+
+.use{
+    background:#16a34a;
+    color:#fff;
+}
+
+.edit{
+    background:#facc15;
+    color:#111;
+}
+
+.delete{
+    background:#dc2626;
+    color:#fff;
+}
+
+/* FOOTER */
+.footer{
+    background:#07142f;
+    color:#fff;
+    text-align:center;
+    padding:18px;
+    font-size:15px;
+    width:100%;
+}
+
+.footer span{
+    color:#ff8c1a;
+    font-weight:bold;
+}
+
+/* MOBILE */
+@media(max-width:900px){
+
+    .menu-btn{
+        display:block;
+    }
+
+    .nav-links{
+        position:absolute;
+        top:72px;
+        right:12px;
+        width:280px;
+        background:#07142f;
+        border-radius:14px;
+        padding:12px;
+        display:none;
+        grid-template-columns:repeat(3,1fr);
+        gap:10px;
+        box-shadow:0 10px 25px rgba(0,0,0,0.25);
+    }
+
+    .nav-links.show{
+        display:grid;
+    }
+
+    .nav-links a{
+        font-size:13px;
+        padding:9px 6px;
+        text-align:center;
+    }
+
+    .container{
+        grid-template-columns:1fr;
+        margin:25px auto 60px auto;
+        padding:0 14px;
+    }
+
+    .card{
+        padding:16px;
+    }
+
+    .card h2{
+        font-size:22px;
+    }
+
+    .actions{
+        grid-template-columns:1fr;
+    }
+
+    .logo{
+        font-size:23px;
+    }
+
+    .logo-icon{
+        width:40px;
+        height:40px;
+        font-size:19px;
+    }
+}
+
+@media(max-width:500px){
+    .nav-links{
+        width:95%;
+        right:2.5%;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="logo">
+        <div class="logo-icon">🛒</div>
+        Smart <span>Cart</span>
+    </div>
+
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+
+    <div class="nav-links" id="navMenu">
+        <a href="/user-dashboard">📊 Dashboard</a>
+        <a href="/user/products">🛍️ Products</a>
+        <a href="/user/profile">👤 Profile</a>
+        <a href="/user/cart" class="active">🛒 Cart</a>
+        <a href="/logout">🚪 Logout</a>
+    </div>
+</nav>
+
+<!-- FLASH MESSAGE -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+    {% for category, message in messages %}
+        <div class="flash-msg {{ category }}">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+
+<!-- PAGE CONTENT -->
+<div class="container">
+
+    <!-- LEFT -->
+    <div class="card">
+        <h2>Add New Address</h2>
+
+        <form method="POST">
+            <input type="text" name="full_name" placeholder="Full Name" required>
+            <input type="text" name="phone" placeholder="Phone Number" required>
+            <textarea name="address" placeholder="Full Address" required></textarea>
+            <input type="text" name="city" placeholder="City" required>
+            <input type="text" name="state" placeholder="State" required>
+            <input type="text" name="pincode" placeholder="Pincode" required>
+
+            <button type="submit" class="save-btn">Save Address</button>
+        </form>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="card">
+        <h2>Saved Addresses</h2>
+
+        {% for address in addresses %}
+        <div class="address-box">
+            <h3>{{ address.full_name }}</h3>
+            <p><b>Phone:</b> {{ address.phone }}</p>
+            <p>
+                {{ address.address }},
+                {{ address.city }},
+                {{ address.state }} - {{ address.pincode }}
+            </p>
+
+            <div class="actions">
+                <a href="/payment/{{ address.id }}" class="use">Use & Pay</a>
+                <a href="/edit-address/{{ address.id }}" class="edit">Edit</a>
+                <a href="/delete-address/{{ address.id }}" class="delete">Delete</a>
+            </div>
+        </div>
+        {% else %}
+        <p>No saved addresses found.</p>
+        {% endfor %}
+    </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    © 2026 <span>SmartCart</span>. All Rights Reserved.
+</div>
+
+<script>
+function toggleMenu(){
+    document.getElementById("navMenu").classList.toggle("show");
+}
+</script>
+
+</body>
+</html>

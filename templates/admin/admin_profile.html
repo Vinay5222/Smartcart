@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Profile - SmartCart</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+min-height:100vh;
+background:#eef4ff;
+color:#111827;
+display:flex;
+flex-direction:column;
+}
+
+/* NAVBAR */
+.navbar{
+width:100%;
+background:linear-gradient(135deg,#1e3a8a,#2563eb);
+padding:16px 7%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+position:sticky;
+top:0;
+z-index:1000;
+box-shadow:0 5px 18px rgba(0,0,0,.18);
+}
+
+.logo{
+color:white;
+font-size:26px;
+font-weight:800;
+}
+
+.menu-toggle{
+display:none;
+font-size:28px;
+color:white;
+cursor:pointer;
+}
+
+.nav-links{
+display:flex;
+gap:14px;
+align-items:center;
+}
+
+.nav-links a{
+color:white;
+text-decoration:none;
+font-weight:700;
+padding:9px 14px;
+border-radius:9px;
+background:rgba(255,255,255,.13);
+font-size:14px;
+}
+
+.nav-links a:hover{
+background:white;
+color:#1e3a8a;
+}
+
+.logout{
+background:#ef4444 !important;
+}
+
+/* MAIN */
+.container{
+flex:1;
+width:100%;
+max-width:950px;
+margin:auto;
+padding:35px 20px;
+}
+
+.page-title{
+text-align:center;
+margin-bottom:25px;
+}
+
+.page-title h1{
+color:#1e3a8a;
+font-size:34px;
+margin-bottom:8px;
+}
+
+.page-title p{
+color:#64748b;
+font-size:15px;
+}
+
+.card{
+background:white;
+width:100%;
+max-width:520px;
+margin:auto;
+padding:32px;
+border-radius:24px;
+box-shadow:0 16px 40px rgba(30,58,138,.18);
+text-align:center;
+}
+
+.profile-img{
+width:130px;
+height:130px;
+border-radius:50%;
+object-fit:cover;
+border:4px solid #2563eb;
+box-shadow:0 8px 22px rgba(37,99,235,.25);
+margin-bottom:22px;
+}
+
+label{
+display:block;
+text-align:left;
+font-size:15px;
+font-weight:700;
+margin-bottom:7px;
+color:#374151;
+}
+
+input{
+width:100%;
+padding:13px 14px;
+margin-bottom:16px;
+border:1px solid #d1d5db;
+border-radius:12px;
+outline:none;
+font-size:15px;
+}
+
+input:focus{
+border-color:#2563eb;
+box-shadow:0 0 0 4px rgba(37,99,235,.15);
+}
+
+button{
+width:100%;
+padding:14px;
+background:linear-gradient(135deg,#1e3a8a,#2563eb);
+border:none;
+color:white;
+font-size:17px;
+border-radius:12px;
+cursor:pointer;
+font-weight:800;
+margin-top:5px;
+}
+
+button:hover{
+box-shadow:0 10px 20px rgba(37,99,235,.30);
+}
+
+.flash{
+padding:12px;
+border-radius:10px;
+margin-bottom:18px;
+text-align:center;
+font-weight:700;
+font-size:14px;
+background:#dcfce7;
+color:#166534;
+}
+
+.back{
+display:inline-block;
+margin-top:18px;
+color:#2563eb;
+text-decoration:none;
+font-weight:800;
+}
+
+.footer{
+background:#0f172a;
+color:white;
+text-align:center;
+padding:16px 10px;
+margin-top:35px;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+
+.menu-toggle{
+display:block;
+}
+
+.nav-links{
+display:none;
+position:absolute;
+top:70px;
+right:15px;
+width:220px;
+background:white;
+border-radius:14px;
+padding:12px;
+box-shadow:0 10px 25px rgba(0,0,0,.18);
+flex-direction:column;
+align-items:stretch;
+z-index:2000;
+}
+
+.nav-links.show{
+display:flex;
+}
+
+.nav-links a{
+background:#f1f5f9;
+color:#1e3a8a;
+text-align:center;
+}
+
+.logout{
+background:#fee2e2 !important;
+color:#991b1b !important;
+}
+
+.container{
+padding:25px 14px;
+}
+
+.page-title h1{
+font-size:27px;
+}
+
+.card{
+padding:24px 20px;
+border-radius:20px;
+}
+
+.profile-img{
+width:115px;
+height:115px;
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+<div class="logo">🛒 SmartCart Admin</div>
+
+<div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+<div class="nav-links" id="navMenu">
+<a href="/admin-dashboard">Dashboard</a>
+<a href="/admin/add-item">Add Product</a>
+<a href="/admin/item-list">View Products</a>
+<a href="/admin/profile">Profile</a>
+<a class="logout" href="/admin-logout">Logout</a>
+</div>
+</div>
+
+<div class="container">
+
+<div class="page-title">
+<h1>Admin Profile</h1>
+<p>Update your admin details, password and profile image.</p>
+</div>
+
+<div class="card">
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+<div class="flash">{{ message }}</div>
+{% endfor %}
+{% endif %}
+{% endwith %}
+
+{% if admin.profile_image %}
+<img src="/static/uploads/admin_profiles/{{ admin.profile_image }}" class="profile-img">
+{% else %}
+<img src="/static/default.png" class="profile-img">
+{% endif %}
+
+<form method="POST" action="/admin/profile" enctype="multipart/form-data">
+
+<label>Name:</label>
+<input type="text" name="name" value="{{ admin.name }}" required>
+
+<label>Email:</label>
+<input type="email" name="email" value="{{ admin.email }}" required>
+
+<label>New Password Optional:</label>
+<input type="password" name="password" placeholder="Enter new password">
+
+<label>Upload New Profile Image:</label>
+<input type="file" name="profile_image" accept="image/*">
+
+<button type="submit">Update Profile</button>
+
+</form>
+
+<a class="back" href="/admin-dashboard">← Back To Dashboard</a>
+
+</div>
+</div>
+
+<footer class="footer">
+© 2026 SmartCart. All Rights Reserved.
+</footer>
+
+<script>
+function toggleMenu(){
+document.getElementById("navMenu").classList.toggle("show");
+}
+</script>
+
+</body>
+</html>
